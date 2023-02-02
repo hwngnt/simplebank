@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"testing"
+	"log"
 
 	"github.com/stretchr/testify/require"
 )
@@ -27,7 +28,7 @@ func TestTransferTx(t *testing.T) {
 				ToAccountID: account2.ID,
 				Amount: amount,
 			})
-
+			
 			errs <- err
 			results <- result
 		}()
@@ -55,6 +56,8 @@ func TestTransferTx(t *testing.T) {
 
 		// check entries
 		fromEntry := result.FromEntry
+		// log.Println(fromEntry)
+
 		require.NotEmpty(t, fromEntry)
 		require.Equal(t, account1.ID, fromEntry.AccountID)
 		require.Equal(t, -amount, fromEntry.Amount)
@@ -65,6 +68,7 @@ func TestTransferTx(t *testing.T) {
 		require.NoError(t, err)
 
 		toEntry := result.ToEntry
+		// log.Println(toEntry)
 		require.NotEmpty(t, toEntry)
 		require.Equal(t, account2.ID, toEntry.AccountID)
 		require.Equal(t, amount, toEntry.Amount)
@@ -74,5 +78,7 @@ func TestTransferTx(t *testing.T) {
 		_, err = store.GetEntry(context.Background(), toEntry.ID)
 		require.NoError(t, err)
 
+
+		
 	}
 }
