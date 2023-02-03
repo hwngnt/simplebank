@@ -1,10 +1,10 @@
 package util
 
-import {
+import (
 	"math/rand"
 	"strings"
 	"time"
-}
+)
 
 const alphabet = "abcdefghijklmnopqrstuvwxyz"
 
@@ -14,12 +14,12 @@ func init() {
 
 // RandomInt generates a random integer between min and max values.
 func RandomInt(min, max int64) int64 {
-	return min + rand.Int63(max - min + 1)
+	return min + rand.Int63n(max-min+1)
 }
 
 //RandomString generates a random string of leng n.
-func RandomString (n int64) string {
-	var sb string.Builder
+func RandomString (n int) string {
+	var sb strings.Builder
 	k := len(alphabet)
 
 	for i:=0; i<n; i++{
@@ -43,5 +43,5 @@ func RandomMoney() int64{
 func RandomCurrency() string{
 	currencies := []string{"USD", "EUR", "CAD", "VND"}
 	n := len(currencies)
-	return currencies[RandomInt(0,n)]
+	return currencies[rand.Intn(n)]
 }
